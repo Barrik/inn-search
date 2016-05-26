@@ -5,10 +5,12 @@ var room = document.getElementsByClassName('room');
 var buttons = document.getElementsByClassName('dropbtn');
 var lists = document.getElementsByClassName('dropdown-content');
 var occupantOptions = d.getElementsByClassName('occupantsOption');
+var priceOptions = d.getElementsByClassName('priceOption');
 
 // This is the user's search settings.  This will be changed clientside.  Below are the default values.
 search = {
   occupants: 1,
+  price: 319,
 };
 
 // ===List Room Name===
@@ -60,6 +62,18 @@ for (var i = 0; i < occupantOptions.length; i++) {
   doOccupantsOptions(i);
 };
 
+// ===Dropdown Meny for Price===
+var prices = [169, 209, 229, 319]
+function doPriceOptions(arg) {
+  priceOptions[arg].addEventListener('click', function() {
+    search.price = prices[arg];
+    priceCount.innerHTML = prices[arg];
+  });
+};
+for (var i = 0; i < priceOptions.length; i++) {
+  doPriceOptions(i);
+};
+
 
 // ==========SEARCH==========
 function show(x) {
@@ -72,7 +86,7 @@ function hide(x) {
 }
 
 function doSearch(room) {
-  if (search.occupants <= roomValues[room].occupants) {
+  if (search.occupants <= roomValues[room].occupants && search.price >= roomValues[room].price) {
     show(roomValues[room].number);
   } else {
     hide(roomValues[room].number);
@@ -83,4 +97,9 @@ d.querySelector('#searchButton').addEventListener('click', function() {
   for (var i = 0; i < roomValues.length; i++) {
     doSearch(i);
   };
+});
+
+// ===Dev: Show Current Search Options in Console===
+d.querySelector('#testButton').addEventListener('click', function() {
+  console.log(search);
 });
