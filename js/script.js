@@ -100,6 +100,6 @@ d.querySelector('#searchButton').addEventListener('click', function() {
 });
 
 // ===Dev: Show Current Search Options in Console===
-d.querySelector('#testButton').addEventListener('click', function() {
-  console.log(search);
-});
+// d.querySelector('#testButton').addEventListener('click', function() {
+//   console.log(search);
+// });
