@@ -5,7 +5,7 @@ var room = document.getElementsByClassName('room');
 var buttons = document.getElementsByClassName('dropbtn');
 var lists = document.getElementsByClassName('dropdown-content');
 var occupantOptions = d.getElementsByClassName('occupantsOption');
-var priceOptions = d.getElementsByClassName('priceOption');
+var priceOptions = d.getElementById('priceContent').children;
 
 // This is the user's search settings.  This will be changed clientside.  Below are the default values.
 search = {
@@ -23,17 +23,17 @@ for (var i = 0; i < room.length; i++) {
 for (var i = 0; i < room.length; i++) {
   var roomNum = i + 1;
   d.querySelector('#room' + roomNum + 'Price').innerHTML = roomValues[i].price;
-};
+}
 
 // ===Toggle Dropdown Menus===
 function toggleLists(num) {
   buttons[num].addEventListener('click', function() {
     lists[num].classList.toggle('show');
-  })
+  });
 }
 for (var i = 0; i < buttons.length; i++) {
   toggleLists(i);
-};
+}
 
 // Close the dropdown if the user clicks outside of it
 window.onclick = function(event) {
@@ -48,7 +48,7 @@ window.onclick = function(event) {
       }
     }
   }
-}
+};
 
 // ===Dropdown Meny for Occupants===
 function doOccupantsOptions(arg) {
@@ -57,22 +57,40 @@ function doOccupantsOptions(arg) {
     search.occupants = xx;
     occupantsCount.innerHTML = xx;
   });
-};
+}
 for (var i = 0; i < occupantOptions.length; i++) {
   doOccupantsOptions(i);
-};
+}
+
+// ===Automatically Fill Price List===
+var roomPrices = [];
+for (var i = 0; i < roomValues.length; i++) {
+  if (roomPrices.indexOf(roomValues[i].price) == -1) {
+    roomPrices.push(roomValues[i].price);
+  }
+}
+roomPrices.sort();
+
+for (var i = 0; i < roomPrices.length; i++) {
+  var newPriceItem = document.createElement('p');
+  var newPriceValue = document.createTextNode(roomPrices[i]);
+  newPriceItem.appendChild(newPriceValue);
+  var PriceElement = document.getElementById("priceContent");
+  PriceElement.appendChild(newPriceItem);
+}
+
+console.log(priceOptions);
 
 // ===Dropdown Meny for Price===
-var prices = [169, 209, 229, 319]
 function doPriceOptions(arg) {
   priceOptions[arg].addEventListener('click', function() {
-    search.price = prices[arg];
-    priceCount.innerHTML = prices[arg];
+    search.price = roomPrices[arg];
+    priceCount.innerHTML = roomPrices[arg];
   });
-};
+}
 for (var i = 0; i < priceOptions.length; i++) {
   doPriceOptions(i);
-};
+}
 
 
 // ==========SEARCH==========
@@ -90,13 +108,13 @@ function doSearch(room) {
     show(roomValues[room].number);
   } else {
     hide(roomValues[room].number);
-  };
-};
+  }
+}
 
 d.querySelector('#searchButton').addEventListener('click', function() {
   for (var i = 0; i < roomValues.length; i++) {
     doSearch(i);
-  };
+  }
 });
 
 // ===Dev: Show Current Search Options in Console===
